@@ -75,7 +75,7 @@ Add this to your Claude Code MCP configuration (usually `~/.claude/mcp_settings.
       "command": "npx",
       "args": [
         "chrome-devtools-mcp@latest",
-        "--channel=stable",
+        "--executablePath=$(which thorium-browser)",
         "--isolated=true",
         "--viewport=1920x1080"
       ]
@@ -271,7 +271,7 @@ This is normal. The browser closes when you exit Claude Code. Use `--isolated=tr
 
 ## Advanced Configuration
 
-### Custom Chrome Binary
+### Custom Browser Binary (Thorium)
 ```json
 {
   "mcpServers": {
@@ -279,17 +279,17 @@ This is normal. The browser closes when you exit Claude Code. Use `--isolated=tr
       "command": "npx",
       "args": [
         "chrome-devtools-mcp@latest",
-        "--executablePath=/Applications/Google Chrome Canary.app/Contents/MacOS/Google Chrome Canary"
+        "--executablePath=$(which thorium-browser)"
       ]
     }
   }
 }
 ```
 
-### Connect to Existing Chrome Instance
+### Connect to Existing Thorium Instance
 ```bash
-# Launch Chrome with remote debugging
-google-chrome --remote-debugging-port=9222
+# Launch Thorium with remote debugging
+$(which thorium-browser) --remote-debugging-port=9222
 
 # Configure MCP to connect
 {

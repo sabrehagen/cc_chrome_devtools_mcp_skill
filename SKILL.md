@@ -329,7 +329,7 @@ View all options: `npx chrome-devtools-mcp@latest --help`
         "--isolated=true",
         "--headless=true",
         "--viewport=1920x1080",
-        "--channel=stable"
+        "--executablePath=$(which thorium-browser)"
       ]
     }
   }
@@ -340,7 +340,7 @@ View all options: `npx chrome-devtools-mcp@latest --help`
 
 ```bash
 # Launch Chrome with remote debugging
-google-chrome --remote-debugging-port=9222 --user-data-dir=/tmp/chrome-profile
+$(which thorium-browser) --remote-debugging-port=9222 --user-data-dir=/tmp/chrome-profile
 
 # Get WebSocket endpoint
 curl http://127.0.0.1:9222/json/version | jq -r '.webSocketDebuggerUrl'
