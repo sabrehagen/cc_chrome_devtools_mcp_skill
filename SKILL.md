@@ -43,7 +43,6 @@ claude mcp list
       "command": "npx",
       "args": [
         "chrome-devtools-mcp@latest",
-        "--isolated=true",
         "--viewport=1920x1080"
       ]
     }
@@ -54,7 +53,7 @@ claude mcp list
 ### Important notes
 
 - Browser auto-starts on first tool use (not on MCP connection)
-- Use `--isolated=true` for security (creates temporary user data directories that auto-cleanup)
+- **Never use `--isolated=true` unless the user explicitly requests it** — isolated mode creates a temporary profile with no cookies, saved passwords, or session state, which breaks workflows that depend on an existing browser session
 - Default behavior shares user data directory across sessions and does NOT clear between runs
 - All browser content is exposed to MCP clients - avoid sensitive data
 
@@ -297,7 +296,7 @@ For Core Web Vitals thresholds and measurement guide, see METRICS.md
 
 ### Security and isolation
 
-- `--isolated <boolean>` - **RECOMMENDED:** Creates temporary user-data-dir, auto-cleanup (default: false)
+- `--isolated <boolean>` - Creates temporary user-data-dir, auto-cleanup (default: false) — **only use when explicitly requested by the user**
 - `--user-data-dir <string>` - Custom user data directory
 - `--acceptInsecureCerts <boolean>` - Ignore certificate errors (SECURITY RISK - dev/test only)
 
@@ -390,10 +389,11 @@ curl http://127.0.0.1:9222/json/version | jq -r '.webSocketDebuggerUrl'
 
 ### Best practices
 
-1. **Use isolated mode for sensitive workflows**
-   - `--isolated=true` creates temporary user data directories
+1. **Only use isolated mode when explicitly requested**
+   - `--isolated=true` creates temporary user data directories with no existing session state
    - Automatically cleaned after browser closes
-   - Prevents data persistence between sessions
+   - Prevents data persistence between sessions — this breaks workflows that rely on existing cookies, logins, or browser state
+   - Default (non-isolated) mode is preferred for most use cases
 
 2. **Certificate handling caution**
    - `--acceptInsecureCerts` is a security risk
@@ -421,7 +421,7 @@ curl http://127.0.0.1:9222/json/version | jq -r '.webSocketDebuggerUrl'
 
 3. **Browser lifecycle:** Browser auto-starts on first tool use, NOT on MCP server connection
 
-4. **Default persistence:** User data directory persists between runs unless `--isolated=true` is used
+4. **Default persistence:** User data directory persists between runs; use `--isolated=true` only when explicitly requested by the user
 
 5. **Permission requirements:**
    - macOS Full Disk Access may be required for some MCP clients
